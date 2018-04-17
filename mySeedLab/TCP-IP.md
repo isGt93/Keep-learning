@@ -1,6 +1,7 @@
 ## TCP-IP攻击
 
 ### 概述
+1. SYN-Flooding攻击效果,受害者系统卡死.
 
 ### 实验环境
 
@@ -53,7 +54,8 @@ net.ipv4.tcp_max_syn_backlog = 512
 SYN cookie是抵抗SYN-Flooding的防御机制.  
 
 防御原理简介:  
-在TCP服务器收到TCP SYN包并返回TCP SYN+ACK包时，不分配一个专门的数据区，而是根据这个SYN包计算出一个cookie值.  
+在TCP服务器收到TCP SYN包并返回TCP SYN+ACK包时，不分配一个专门的数据区，  
+而是根据这个SYN包计算出一个cookie值.  
 在收到TCP ACK包时，TCP服务器在根据那个cookie值检查这个TCP ACK包的合法性.  
 如果合法，再分配专门的数据区进行处理未来的TCP连接.  
 
@@ -96,6 +98,113 @@ SYN cookie是抵抗SYN-Flooding的防御机制.
 
 ### TCP-RST攻击
 
+1. FTP协议
+`# service vsftpd start`
+
+2. TELNET协议
+`# /etc/init.d/openbsd-inetd restart`
+
+3. SSH协议
+`# /etc/init.d/ssh start`
+
+4. Newox 78简介
+
+```
+标题：重置每个TCP数据包
+用法：netwox 78 [-d device] [-f filter] [-s spoofip]
+参数：
+-d | --device device名称{Eth0}
+-f | --filter filter pcap过滤器
+-s | --spoofip spoofip IP欺骗初始化类型{linkbraw}
+```
+
+5. 实验结果分析
+- FTP
+FTP服务器地址:`192.168.59.146/24`  
+FTP客户端地址:`192.168.59.144/24`  
+攻击者地址:`192.168.59.1/24`  
+
+结果显示:已经建立的TCP连接断开.   
+
+```
+[04/17/2018 23:28] seed@ubuntu:~$ ftp 192.168.59.146
+Connected to 192.168.59.146.
+220 (vsFTPd 3.0.3)
+Name (192.168.59.146:seed): gu
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> ls
+200 PORT command successful. Consider using PASV.
+150 Here comes the directory listing.
+drwxr-xr-x    2 1000     1000         4096 Apr 16 16:32 Desktop
+drwxr-xr-x    2 1000     1000         4096 Apr 16 16:32 Documents
+drwxr-xr-x    2 1000     1000         4096 Apr 16 16:32 Downloads
+drwxr-xr-x    2 1000     1000         4096 Apr 16 16:32 Music
+drwxr-xr-x    2 1000     1000         4096 Apr 16 16:32 Pictures
+drwxr-xr-x    2 1000     1000         4096 Apr 16 16:32 Public
+drwxr-xr-x    2 1000     1000         4096 Apr 16 16:32 Templates
+drwxr-xr-x    2 1000     1000         4096 Apr 16 16:32 Videos
+226 Directory send OK.
+ftp>
+ftp> ls
+421 Service not available, remote server has closed connection
+ftp>
+
+```
+- Telnet
+
+Telnet服务器地址:`192.168.59.146/24`  
+Telnet客户端地址:`192.168.59.144/24`  
+攻击者地址:`192.168.59.1/24`  
+
+结果显示:已经建立的TCP连接断开.   
+
+```
+[04/17/2018 23:36] seed@ubuntu:~$ telnet 192.168.59.146
+Trying 192.168.59.146...
+telnet: Unable to connect to remote host: Connection refused
+[04/17/2018 23:36] seed@ubuntu:~$ telnet 192.168.59.146
+Trying 192.168.59.146...
+Connected to 192.168.59.146.
+Escape character is '^]'.
+Ubuntu 16.04.4 LTS
+ubuntu login: gu
+Password:
+Welcome to Ubuntu 16.04.4 LTS (GNU/Linux 4.4.0-119-generic i686)
+
+gu@ubuntu:~$
+gu@ubuntu:~$ ls
+Desktop    Downloads         Music     Public     Videos
+Documents  examples.desktop  Pictures  Templates
+gu@ubuntu:~$
+gu@ubuntu:~$ Connection closed by foreign host.
+[04/18/2018 00:28] seed@ubuntu:~$
+```
+- SSH
+
+SSH服务器地址:`192.168.59.146/24`  
+SSH客户端地址:`192.168.59.144/24`  
+攻击者地址:`192.168.59.1/24`  
+
+结果显示:已经建立的TCP连接断开.   
+
+```
+[04/18/2018 00:40] seed@ubuntu:~$ ssh gu@192.168.59.146
+gu@192.168.59.146's password: 
+Welcome to Ubuntu 16.04.4 LTS (GNU/Linux 4.4.0-119-generic i686)
+
+Last login: Wed Apr 18 00:27:06 2018 from 192.168.59.144
+gu@ubuntu:~$ ls
+Desktop    Downloads         Music     Public     Videos
+Documents  examples.desktop  Pictures  Templates
+gu@ubuntu:~$ 
+gu@ubuntu:~$ 
+gu@ubuntu:~$ Write failed: Broken pipe
+[04/18/2018 00:41] seed@ubuntu:~$ 
+```
 
 ### TCP会话劫持
 
