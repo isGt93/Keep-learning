@@ -254,9 +254,9 @@ Telnet客户端地址:`192.168.59.144/24`
 在wireshark上显示抓包数据如下:
 
 ![我们成功的发送了ls !!!](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/TCP-IP/2.png)
-
+我们成功的发送了ls !!!  
 ![我们成功的获取到了服务器发送的数据 !!!](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/TCP-IP/3.png)
-
+我们成功的获取到了服务器发送的数据 !!!  
 
 现在我们来通过NC反弹一个Shell,来控制我们受害者:  
 首先是构造NC命令:
