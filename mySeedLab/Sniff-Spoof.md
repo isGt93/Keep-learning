@@ -2,9 +2,7 @@
 
 - 什么是报文嗅探sniffing?
 
-
 - 什么是报文伪造spoofing?
-
 
 - sniffing-理解sniffex
 sniffex嗅探原理:
@@ -356,7 +354,7 @@ PING hackbiji.top (192.30.252.153) 56(84) bytes of data.
 ```
 程序运行结果:
 
-
+![sniff_icmp](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/Sniff-Spoof/sniff_icmp.png)
 
 - sniffing-嗅探telnet密码
 稍微修改一下代码 方便我们控制过滤条件
@@ -366,7 +364,7 @@ PING hackbiji.top (192.30.252.153) 56(84) bytes of data.
 4.在主机上访问虚拟机`telnet 192.168.59.146`
 结果如图所示:
 其中用户名和密码都为`gu`!!
-
+![sniff_telnet](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/Sniff-Spoof/sniff_telnet.png)
 
 ```c
 #include<stdio.h>
@@ -582,7 +580,7 @@ int main(int argc,char*argv[]){
 
 - spoofing-伪造IP
 抓包:
-
+![spoof_tcp](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/Sniff-Spoof/spoof_tcp.png)
 
 程序源码分析:
 
@@ -1056,7 +1054,7 @@ allocate_intmem (int len)
 ```
 - spoofing-伪造ICMP
 抓包:
-
+![spoof_icmp4](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/Sniff-Spoof/spoof_icmp4.png)
 
 
 程序源码分析:
@@ -1411,7 +1409,7 @@ allocate_intmem (int len)
 ```
 - spoofing-伪造MAC
 抓包:
-
+![spoof_myping](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/Sniff-Spoof/spoof_myping.png)
 程序运行结果:
 ```
 root@gt:~/Desktop# gcc ping4_ll.c -o ping4_ll
@@ -1952,7 +1950,7 @@ allocate_intmem (int len)
 }
 ```
 - 通过ping命名看网络欺骗的本质
-
+![sniff_spoof](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/Sniff-Spoof/sniff_spoof.png)
 
 稍微修改一下sniff和spoof的代码
 ```

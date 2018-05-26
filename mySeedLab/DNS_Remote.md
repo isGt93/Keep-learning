@@ -21,7 +21,7 @@ DNS服务器:192.168.59.153
 - 远程DNS Cache中毒
 - - Kaminsky攻击
 远程DNS攻击原理如图所示:
-
+![kaminsky](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/DNS_Remote/kaminsky.png)
 
 如何让DNS服务器Cache中毒?
 	1. TTL约束:域名不能在DNS Cache中存在
@@ -458,7 +458,7 @@ mail    IN  A   1.1.1.2
 3. 重启DNS服务器bind9 重启攻击者bind9
 `sudo service bind9 restart`
 4. 运行攻击程序 结果如图所示
-
+![dig](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/DNS_Remote/dig.png)
 
 - - 如何预防远程DNS攻击?
 以后再说!
