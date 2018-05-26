@@ -2,11 +2,33 @@
 
 ### 当你浏览器中敲下知乎域名电脑做了什么?
 - 访问网站概述
-
+1.解析URL  
+2.DNS查询  
+2.1.查询本地浏览器DNS缓存  
+```
+chrome://net-internals/#dns
+firefox: about:config
+```
+2.2.查询本地hosts文件  
+```
+/etc/hosts
+```
+2.3.查询本地DNS服务器  
+2.4.查询上级DNS服务器  
 - DNS协议概述
 
-- 为什么黑客能通过DNS协议钓鱼
+DNS(Domain Name System)通俗的讲就是手机号码和姓名备注的系统.  
+比如我自己的黑客笔记  
+域名是:hackbiji.top(http://isgt93.github.io)  
+IP地址:192.30.252.154  
+你更愿意选择输入什么?DNS就是将IP地址和域名对应起来的!  
 
+- 为什么黑客能通过DNS协议钓鱼
+DNS欺骗原理:
+![DNS欺骗](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/DNS_Local/DNS_Spoof.png)
+
+DNS缓存中毒原理:
+![DNS中毒](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/DNS_Local/DNS_Spoof.png)
 ### 攻击环境配置
 - 虚拟机各主机地址
 ```
@@ -79,7 +101,7 @@ Address: 192.168.59.151
 192.168.59.151	www.zhihu.com
 ```
 实际效果如图所示:  
-
+![zhihu](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/DNS_Local/zhihu.com.png)
 
 - 不要相信黑客伪造的DNS应答报文,他怎么伪造的?
 
@@ -89,7 +111,7 @@ netwox 105 -h "zhihu.com" -H "192.168.59.151" -a "ns.example.com" -A "192.168.59
 欺骗浏览器,告诉浏览器`zhihu.com`的IP地址是`192.168.59.151`,而这个错误的IP地址往往就是钓鱼网站!  
 
 实际效果如图所示:  
-
+![seed](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/DNS_Local/seed.png)
 
 - 小心把控DNS服务器Cache时间,严防DNS Cache中毒!
 
@@ -98,7 +120,15 @@ netwox 105 -h "www.zhihu.com" -H "192.168.59.152" -a "ns.example.com" -A "192.16
 ```
 实际效果如图所示:
 
+![zhihu_dig](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/DNS_Local/zhihu_dig.png)
 
+来看看咱们的DNS服务器缓存
+```
+# rndc flush
+# rndc dumpdb -cache
+# cat /var/cache/bind/dump.db | grep zhihu
+```
+![zhihu_cache](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/DNS_Local/zhihu_cache.png)
 
 ### 如何防御DNS攻击?
 
@@ -116,4 +146,4 @@ netwox 105 -h "www.zhihu.com" -H "192.168.59.152" -a "ns.example.com" -A "192.16
 
 如图所示:
 
-
+![csrf](https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/DNS_Local/csrf.png)
