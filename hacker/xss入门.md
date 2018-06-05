@@ -113,11 +113,11 @@ URL常见模式：`<scheme>://<netloc>/<path>?<query>#<fragment>`
 #### 2.HTML玄机
 **HTML标签之间**  
 [div 标签之间](https://raw.githubusercontent.com/isGt93/Keep-learning/master/hacker/xss/1/2.1.1.html)  
-[title 标签之间](./xss/1/2.1.2.html)  
+[title 标签之间](https://raw.githubusercontent.com/isGt93/Keep-learning/master/hacker/xss/1/2.1.2.html)  
 
 **HTML标签之内**  
 [input 闭合属性](https://raw.githubusercontent.com/isGt93/Keep-learning/master/hacker/xss/1/2.2.1.html)  
-[input 闭合属性又闭合标签](./xss/2.2.2.html)  
+[input 闭合属性又闭合标签](https://raw.githubusercontent.com/isGt93/Keep-learning/master/hacker/xss/2.2.2.html)  
 1.输出在`src\href\action`等属性内  
 [href](https://raw.githubusercontent.com/isGt93/Keep-learning/master/hacker/xss/1/2.2.3.html)  
 [href 过滤了/](https://raw.githubusercontent.com/isGt93/Keep-learning/master/hacker/xss/2.2.4.html)  
@@ -162,7 +162,7 @@ URL常见模式：`<scheme>://<netloc>/<path>?<query>#<fragment>`
 将`>`转为`&gt;`  
 将`"`转为`&quot;`   
 在JS执行之前，HTML形式的编码会自动解码！！  
-[HTML实体编码](./xss/2/1.1.html)  
+[HTML实体编码](https://raw.githubusercontent.com/isGt93/Keep-learning/master/hacker/xss/2/1.1.html)  
 
 **JS编码**  
 1.Unicode形式：`\uH`十六进制  
